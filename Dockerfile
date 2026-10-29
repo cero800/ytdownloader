@@ -1,35 +1,25 @@
-FROM python:3.12-slim
+FROM node:20-alpine
 
-# Instalar dependencias del sistema
-RUN apt-get update && apt-get install -y \
-    curl \
-    ca-certificates \
-    nodejs \
-    npm \
-    git \
-    ffmpeg \
-    && rm -rf /var/lib/apt/lists/*
+# Instalar python3, pip, ffmpeg y dependencias (Alpine usa apk)
+RUN apk add --no-cache python3 py3-pip ffmpeg curl ca-certificates git bash
 
-# Instalar yt-dlp
-RUN pip install --no-cache-dir yt-dlp
+# Instalar yt-dlp (sin --break-system-packages porque no existe en Alpine)
+RUN pip3 install --no-cache-dir yt-dlp
 
-# Crear directorio de trabajo
+# Directorio de trabajo
 WORKDIR /app
 
-# Copiar archivos de la app
+# Copiar y instalar dependencias
 COPY package*.json ./
-COPY package-lock.json* ./
-RUN npm ci --only=production || npm install
+RUN npm ci --only=production || npm install --production
 
-# Copiar el resto del código
+# Copiar código y compilar
 COPY . .
-
-# Compilar la app Next.js
 RUN npm run build
 
-# Exponer puerto
 ENV PORT=3000
 ENV NODE_ENV=production
 
-# Comando para iniciar
+EXPOSE 3000
+
 CMD ["npm", "start"]
