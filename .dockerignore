@@ -1,0 +1,15 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+README.md
+Dockerfile
+.dockerignore
+.render.yaml
+next.config.ts
+dist
+build
+out
+.vercel
+tmp
+*.mp4

@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: yt-download
+    runtime: docker
+    repo: https://github.com/tu-usuario/yt-download  # cambia por tu repo o sube a GitHub
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+    healthCheckPath: /
+    autoDeploy: true
