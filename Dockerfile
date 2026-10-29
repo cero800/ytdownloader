@@ -4,7 +4,7 @@ FROM node:20-alpine
 RUN apk add --no-cache python3 py3-pip ffmpeg curl ca-certificates git bash
 
 # Instalar yt-dlp (sin --break-system-packages porque no existe en Alpine)
-RUN pip3 install --no-cache-dir yt-dlp
+RUN pip3 install --break-system-packages --no-cache-dir yt-dlp
 
 # Directorio de trabajo
 WORKDIR /app
